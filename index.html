@@ -1,185 +1,473 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="main.css">
-    <script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Portfolio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: #2a2a2a;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: clamp(1.2rem, 4vw, 1.5rem);
+      font-weight: bold;
+      color: #00ffaa;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #ffffff;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #00ffaa;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    section {
+      padding: 3rem 1.5rem;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    #home {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      min-height: 60vh;
+    }
+
+    /* Full-page circular animation */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: transparent;
+      pointer-events: none;
+    }
+
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 255, 170, 0.2) 0%, transparent 70%);
+      animation: pulse 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .circle:nth-child(1) {
+      width: 200px;
+      height: 200px;
+      top: 10%;
+      left: 15%;
+      animation-delay: 0s;
+    }
+
+    .circle:nth-child(2) {
+      width: 300px;
+      height: 300px;
+      top: 60%;
+      left: 70%;
+      animation-delay: 2s;
+    }
+
+    .circle:nth-child(3) {
+      width: 250px;
+      height: 250px;
+      top: 40%;
+      left: 30%;
+      animation-delay: 4s;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0.5);
+        opacity: 0.3;
+      }
+      50% {
+        transform: scale(1.5);
+        opacity: 0.6;
+      }
+      100% {
+        transform: scale(0.5);
+        opacity: 0.3;
+      }
+    }
+
+    #home h1 {
+      font-size: clamp(2rem, 8vw, 3rem);
+      margin-bottom: 1rem;
+      text-align: left;
+      color: #00ffaa;
+    }
+
+    #home p {
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      color: #cccccc;
+      max-width: 90%;
+      text-align: left;
+    }
+
+    #about, #skills, #projects, #contact {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 6vw, 2.5rem);
+      margin-bottom: 1.5rem;
+      color: #00ffaa;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+    }
+
+    .skill-item {
+      background-color: #2a2a2a;
+      padding: 1rem;
+      text-align: center;
+      border-radius: 8px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+      box-shadow: 0 0 5px rgba(0, 255, 170, 0.3);
+    }
+
+    .skill-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 10px rgba(0, 255, 170, 0.5);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background-color: #2a2a2a;
+      padding: 1rem;
+      border-radius: 8px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 0 5px rgba(0, 255, 170, 0.3);
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 10px rgba(0, 255, 170, 0.5);
+    }
+
+    .project-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .project-card h3 {
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      margin-bottom: 0.5rem;
+      color: #00ffaa;
+    }
+
+    .project-card p {
+      color: #cccccc;
+      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .contact-links a {
+      color: #00ffaa;
+      text-decoration: none;
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      transition: color 0.3s;
+    }
+
+    .contact-links a:hover {
+      color: #ffffff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      background-color: #2a2a2a;
+      color: #cccccc;
+      font-size: clamp(0.8rem, 2.5vw, 1rem);
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #2a2a2a;
+        flex-direction: column;
+        padding: 1rem;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links a {
+        margin: 0.5rem 0;
+        font-size: 1.2rem;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 2rem 1rem;
+      }
+
+      .circle:nth-child(1) {
+        width: 150px;
+        height: 150px;
+      }
+
+      .circle:nth-child(2) {
+        width: 200px;
+        height: 200px;
+      }
+
+      .circle:nth-child(3) {
+        width: 180px;
+        height: 180px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #home h1 {
+        font-size: 1.8rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      }
+
+      .project-card img {
+        height: 120px;
+      }
+
+      .circle:nth-child(1) {
+        width: 100px;
+        height: 100px;
+      }
+
+      .circle:nth-child(2) {
+        width: 150px;
+        height: 150px;
+      }
+
+      .circle:nth-child(3) {
+        width: 120px;
+        height: 120px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <section id="banner">
-       
-        <div class="banner-text">
-            <h1>Folarin Anuoluwapo Grace</h1>
-            <p>Front End Web Developer </p>
-            <div class="banner-btn">
-                <a href="#feature"> <span></span> About</a>
-                <a href="#service"> <span></span> Certificates</a>
-            </div>
-        </div>
-       </section>
-       <div id="sideNav">
-           <nav>
-               <ul>
-                   <li><a href="#banner">Home</a></li>
-                   <li><a href="#feature">About</a></li>
-                   <li><a href="#service">Certificates</a></li>
-                   <li><a href="#footer ">Contact</a></li>
-               </ul>
-           </nav>
-       </div>
-       <div id="manuBtn">
-           <img src="images/menu.png" alt="" id="menu">
-       </div>
-        <!--Features-->
-        <section id="feature">
-            <div class="title-text">
-         <p>ABOUT </p>
-         <h1>What I stand for</h1>
-               
-            </div>
-            <div class="feature-box">
-           <div class="features">
-                    <h1></h1>
-                    <div class="feature-desc">
-                        <div class="feature-icon">
-                            <i class="fa fa-sheild" ></i>
-                           </div>
-                        <div class="feature-text">
-                            <p>
-                                Highly effective at developing and standardizing designs according to company brand and objectives.  Knowledgeable Front End Developer adept at creating successful websites that meet customers’ needs.
-                                
-                                
-                                </p>
-                        </div>
-                    </div>
-                    <h1></h1>
-                    <div class="feature-desc">
-                        <div class="feature-icon">
-                            <i class="fa fa-check-square-o" ></i>
-                           </div>
-                        <div class="feature-text">
-                            <p>
-                                Languages and Frameworks:
-                                Javascript,  HTML5, CSS3, Bootstrap3, Angular.js
-                                
-                                
-                           </p>
-                        </div>
-                    </div>
-                    <h1></h1>
-                    <div class="feature-desc">
-                        <div class="feature-icon">
-                            <i class="fa fa-inr" ></i>
-                           </div>
-                        <div class="feature-text">
-                            <p>Tools & expertise:
-                                Git, Responsive Web Design and Javascript.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="features-img">
-                   <img src="images/hands.webp" alt="" >
-               </div>
-            </div>
-        </section>
-       <!--services-->
-       <section id="service">
-           <div class="title-text">
-               <p>Certificates</p>
-               <h1>My certificates</h1>
-                     
-                  </div>
-                  <div class="service-box">
-                      <div class="single-service">
-                          <img src="images/women techsters.jpg" height="400px" alt="">
-                          <div class="overlay"></div>
-                          <div class="service-desc">
-                              <h3>Women Techsters Initiative </h3>
-                              <hr>
-                              <p>A three month extensive training on Front End Web Development. I wass thought how to use programming languages like: Css, Javascript, GitHub etc... </p>
-                          </div>
-                      </div>
-                      <div class="single-service">
-                       <img src="images/jobber man.jpg" height="400px" alt="">
-                       <div class="overlay"></div>
-                       <div class="service-desc">
-                           <h3>Jobberman soft skill training</h3>
-                           <hr>
-                           <p>A very informative training abput the importance and appropraite use of soft skills. </p>
-                       </div>
-                      </div>
-                      <div class="single-service">
-                       <img src="images/aws ai .jpg" height="400px" alt="">
-                       <div class="overlay"></div>
-                       <div class="service-desc">
-                           <h3>Aws AI/ML</h3>
-                           <hr>
-                           <p>An introductory course to I/Ml.</p>
-                       </div>
-                      </div>
-                      <div class="single-service">
-                       <img src="images/aws tech essential.jpg" height="400px" alt="">
-                       <div class="overlay"></div>  
-                       <div class="service-desc">
-                           <h3>Aws tech essential day</h3>
-                           <hr>
-                           <p></p>
-                       </div>
-                      </div>
-                  </div>
-       </section>
- 
-   
-       <!--footer-->
-       <section id="footer">
-           <img src="images/footer-img.png" alt="" class="footer-img">
-         
-               <div class="title-text">
-               <p>Contact</p>
-               <h1>Contact me</h1>
-                     
-                  </div>
-         
-                  <div class="footer-row">
-                    <div class="footer-left">
-                        <h1>Lorem, ipsum dolor.</h1>
-                        <p>11b Abebi close, off olatunji street, Ojota, lagos. Nigeria<i class="fa fa-clock-o" ></i></p>
-                        <p>folarinanuoluwapograce@gmail.com<i class="fa fa-clock-o" ></i></p>
-                        <p>0816477108 <i class="fa fa-clock-o" ></i></p>
-                       </div>
-                      <div class="footer-right">
-                       <h1>Lorem, ipsum dolor.</h1>
-                       <p>11b Abebi close, off olatunji street, Ojota, lagos. Nigeria<i class="fa fa-clock-o" ></i></p>
-                       <p>folarinanuoluwapograce@gmail.com<i class="fa fa-clock-o" ></i></p>
-                       <p>0816477108 <i class="fa fa-clock-o" ></i></p>
-                      </div>
-                  </div>
-       </section>
-   
-       <script>
-           var manuBtn = document.getElementById("manuBtn")
-           var sideNav = document.getElementById("sideNav")
-           var menu = document.getElementById("menu")
-           sideNav.style.right = "-250px";
-           manuBtn.onclick = function(){
-               if(sideNav.style.right == "-250px"){
-                   sideNav.style.right ="0";
-                   menu.src = "images/close.png"
-               }
-               else{
-                   sideNav.style.right = "-250px"
-                   menu.src = " images/menu.png"
-               }
-           }
-   
-         // All animations will take exactly 500ms
-   var scroll = new SmoothScroll('a[href*="#"]', {
-       speed: 1000,
-       speedAsDuration: true
-   });
-       </script>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+
+  <nav>
+    <div class="logo">Grace</div>
+    <button class="hamburger">☰</button>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <section id="home">
+    <h1>Hi, I'm Grace</h1>
+    <p>I'm a passionate web developer creating modern and responsive web applications.</p>
+    <p>I'm a dedicated developer with a passion for building user-friendly and visually appealing websites. With expertise in multiple languages, I strive to create seamless digital experiences.</p>
+  </section>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <p>I’m Grace, a frontend developer who brings designs to life with clean code and user-first thinking. I specialize in crafting responsive, accessible web interfaces using React, and CSS frameworks like Tailwind. With years of experience, I’ve built everything from sleek landing pages to complex dashboards.I’m passionate about performance optimization and seamless UX, ensuring every project is both beautiful and functional. I thrive on turning complex requirements into intuitive solutions and love collaborating with designers and backend teams. When I’m not coding, I’m tinkering with new libraries or sharing tips at local tech meetups. Explore my work or reach out to create something impactful together.</p>
+  </section>
+
+  <section id="skills">
+    <h2>Professional Skillset</h2>
+    <div class="skills-grid">
+      <div class="skill-item">HTML</div>
+      <div class="skill-item">CSS</div>
+      <div class="skill-item">JavaScript</div>
+      <div class="skill-item">React</div>
+      <div class="skill-item">Node.js</div>
+      <div class="skill-item">Git</div>
+        <div class="skill-item">Tailwind CSS</div>
+        <div class="skill-item">Python</div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <img src="kanban.png" alt="Project 1">
+        <h3>Project One</h3>
+        <p>A responsive task management web app built with React and Tailwind CSS.</p>
+      </div>
+      <div class="project-card">
+        <img src="Visionlink.png" alt="Project 2">
+        <h3>Project Two</h3>
+        <p>A responsive website built with HTML/CSS/Javascript</p>
+      </div>
+      <div class="project-card">
+        <img src="Video-audio.png" alt="Project 3">
+        <h3>Project Three</h3>
+        <p>A Program that converts Video to Audio. It was built with Python</p>
+      </div>
+      <div class="project-card">
+        <img src="Fylo.png" alt="Project 3">
+        <h3>Project Three</h3>
+        <p>A simple website</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Feel free to reach out to me for collaboration or inquiries!</p>
+    <div class="contact-links">
+      <a href="mailto:folarinanuoluwapograce@gmail.com">Email</a>
+      <a href="https://github.com/Grace-Folarin?tab=repositories" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/folarinanuoluwapograce" target="_blank">LinkedIn</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Grace. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Hamburger menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      hamburger.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+    });
+
+    // Close mobile menu when a link is clicked
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        hamburger.textContent = '☰';
+      });
+    });
+
+    // Smooth scrolling for nav links
+    document.querySelectorAll('.nav-links a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // Highlight active nav link on scroll
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('section');
+      const navLinks = document.querySelectorAll('.nav-links a');
+      let current = '';
+
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (pageYOffset >= sectionTop - 60) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.style.color = '#ffffff';
+        if (link.getAttribute('href') === `#${current}`) {
+          link.style.color = '#00ffaa';
+        }
+      });
+    });
+  </script>
 </body>
 </html>
