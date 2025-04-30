@@ -1,473 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Portfolio</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Arial', sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do You Love Me?</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1e3a8a, #000000);
+            background-image: url(WhatsApp\ Image\ 2025-04-29\ at\ 2.11.51\ PM.jpeg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            font-family: 'Courier New', Courier, monospace;
+            color: #bfdbfe;
+            overflow: hidden;
+        }
 
-    body {
-      background-color: #1a1a1a;
-      color: #ffffff;
-      line-height: 1.6;
-      scroll-behavior: smooth;
-      position: relative;
-      overflow-x: hidden;
-    }
+        .container {
+            text-align: center;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
 
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background-color: #2a2a2a;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-    }
+        h1 {
+            font-size: 3rem;
+            text-shadow: 0 0 10px #60a5fa;
+            animation: pulse 2s infinite;
+            margin-bottom: 2rem;
+        }
 
-    .logo {
-      font-size: clamp(1.2rem, 4vw, 1.5rem);
-      font-weight: bold;
-      color: #00ffaa;
-    }
+        .buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
 
-    .nav-links {
-      display: flex;
-      align-items: center;
-    }
+        button {
+            padding: 1.5rem 3rem;
+            font-size: 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(96, 165, 250, 0.5);
+        }
 
-    .nav-links a {
-      color: #ffffff;
-      text-decoration: none;
-      margin-left: 1.5rem;
-      font-size: clamp(0.9rem, 2.5vw, 1rem);
-      transition: color 0.3s;
-    }
+        #yesBtn {
+            background: #3b82f6;
+            color: #ffffff;
+        }
 
-    .nav-links a:hover {
-      color: #00ffaa;
-    }
+        #yesBtn:hover {
+            background: #2563eb;
+            transform: scale(1.1);
+        }
 
-    .hamburger {
-      display: none;
-      font-size: 1.5rem;
-      background: none;
-      border: none;
-      color: #ffffff;
-      cursor: pointer;
-    }
+        #noBtn {
+            background: #1e3a8a;
+            color: #bfdbfe;
+        }
 
-    section {
-      padding: 3rem 1.5rem;
-      min-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
-      z-index: 1;
-    }
+        #noBtn:hover {
+            transform: scale(0.9);
+        }
 
-    #home {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-      min-height: 60vh;
-    }
+        #perchanceBtn {
+            background: #1d4ed8;
+            color: #bfdbfe;
+        }
 
-    /* Full-page circular animation */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      background: transparent;
-      pointer-events: none;
-    }
+        #perchanceBtn:hover {
+            transform: scale(0.9);
+        }
 
-    .circle {
-      position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0, 255, 170, 0.2) 0%, transparent 70%);
-      animation: pulse 6s ease-in-out infinite;
-      pointer-events: none;
-    }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
 
-    .circle:nth-child(1) {
-      width: 200px;
-      height: 200px;
-      top: 10%;
-      left: 15%;
-      animation-delay: 0s;
-    }
+        .celebration-message {
+            display: none;
+            font-size: 3rem;
+            color: #ffffff;
+            text-shadow: 0 0 10px #60a5fa;
+            animation: pulse 2s infinite;
+            margin-bottom: 2rem;
+        }
 
-    .circle:nth-child(2) {
-      width: 300px;
-      height: 300px;
-      top: 60%;
-      left: 70%;
-      animation-delay: 2s;
-    }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
 
-    .circle:nth-child(3) {
-      width: 250px;
-      height: 250px;
-      top: 40%;
-      left: 30%;
-      animation-delay: 4s;
-    }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
 
-    @keyframes pulse {
-      0% {
-        transform: scale(0.5);
-        opacity: 0.3;
-      }
-      50% {
-        transform: scale(1.5);
-        opacity: 0.6;
-      }
-      100% {
-        transform: scale(0.5);
-        opacity: 0.3;
-      }
-    }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    #home h1 {
-      font-size: clamp(2rem, 8vw, 3rem);
-      margin-bottom: 1rem;
-      text-align: left;
-      color: #00ffaa;
-    }
-
-    #home p {
-      font-size: clamp(1rem, 3vw, 1.2rem);
-      color: #cccccc;
-      max-width: 90%;
-      text-align: left;
-    }
-
-    #about, #skills, #projects, #contact {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-    }
-
-    h2 {
-      font-size: clamp(1.8rem, 6vw, 2.5rem);
-      margin-bottom: 1.5rem;
-      color: #00ffaa;
-    }
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 1rem;
-    }
-
-    .skill-item {
-      background-color: #2a2a2a;
-      padding: 1rem;
-      text-align: center;
-      border-radius: 8px;
-      transition: transform 0.3s, box-shadow 0.3s;
-      font-size: clamp(0.9rem, 2.5vw, 1rem);
-      box-shadow: 0 0 5px rgba(0, 255, 170, 0.3);
-    }
-
-    .skill-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 10px rgba(0, 255, 170, 0.5);
-    }
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .project-card {
-      background-color: #2a2a2a;
-      padding: 1rem;
-      border-radius: 8px;
-      transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 0 5px rgba(0, 255, 170, 0.3);
-    }
-
-    .project-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 10px rgba(0, 255, 170, 0.5);
-    }
-
-    .project-card img {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-    }
-
-    .project-card h3 {
-      font-size: clamp(1rem, 3vw, 1.2rem);
-      margin-bottom: 0.5rem;
-      color: #00ffaa;
-    }
-
-    .project-card p {
-      color: #cccccc;
-      font-size: clamp(0.8rem, 2.5vw, 0.9rem);
-    }
-
-    .contact-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      justify-content: center;
-      margin-top: 2rem;
-    }
-
-    .contact-links a {
-      color: #00ffaa;
-      text-decoration: none;
-      font-size: clamp(1rem, 3vw, 1.2rem);
-      transition: color 0.3s;
-    }
-
-    .contact-links a:hover {
-      color: #ffffff;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      background-color: #2a2a2a;
-      color: #cccccc;
-      font-size: clamp(0.8rem, 2.5vw, 1rem);
-    }
-
-    /* Mobile Responsiveness */
-    @media (max-width: 768px) {
-      .hamburger {
-        display: block;
-      }
-
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background-color: #2a2a2a;
-        flex-direction: column;
-        padding: 1rem;
-      }
-
-      .nav-links.active {
-        display: flex;
-      }
-
-      .nav-links a {
-        margin: 0.5rem 0;
-        font-size: 1.2rem;
-      }
-
-      .projects-grid {
-        grid-template-columns: 1fr;
-      }
-
-      section {
-        padding: 2rem 1rem;
-      }
-
-      .circle:nth-child(1) {
-        width: 150px;
-        height: 150px;
-      }
-
-      .circle:nth-child(2) {
-        width: 200px;
-        height: 200px;
-      }
-
-      .circle:nth-child(3) {
-        width: 180px;
-        height: 180px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      #home h1 {
-        font-size: 1.8rem;
-      }
-
-      h2 {
-        font-size: 1.5rem;
-      }
-
-      .skills-grid {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      }
-
-      .project-card img {
-        height: 120px;
-      }
-
-      .circle:nth-child(1) {
-        width: 100px;
-        height: 100px;
-      }
-
-      .circle:nth-child(2) {
-        width: 150px;
-        height: 150px;
-      }
-
-      .circle:nth-child(3) {
-        width: 120px;
-        height: 120px;
-      }
-    }
-  </style>
+        .container {
+            animation: fadeIn 1s ease-out forwards;
+        }
+    </style>
 </head>
 <body>
-  <div class="circle"></div>
-  <div class="circle"></div>
-  <div class="circle"></div>
-
-  <nav>
-    <div class="logo">Grace</div>
-    <button class="hamburger">☰</button>
-    <div class="nav-links">
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
+    <div class="container">
+        <h1 id="questionText">Do You Love Me?</h1>
+        <div class="buttons">
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+            <button id="perchanceBtn">Perchance</button>
+        </div>
+        <h1 class="celebration-message" id="celebrationMessage">Yay! I Love You Too!</h1>
     </div>
-  </nav>
+    <canvas id="confettiCanvas"></canvas>
 
-  <section id="home">
-    <h1>Hi, I'm Grace</h1>
-    <p>I'm a passionate web developer creating modern and responsive web applications.</p>
-    <p>I'm a dedicated developer with a passion for building user-friendly and visually appealing websites. With expertise in multiple languages, I strive to create seamless digital experiences.</p>
-  </section>
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const perchanceBtn = document.getElementById('perchanceBtn');
+        const canvas = document.getElementById('confettiCanvas');
+        const ctx = canvas.getContext('2d');
+        const celebrationMessage = document.getElementById('celebrationMessage');
+        const questionText = document.getElementById('questionText');
 
-  <section id="about">
-    <h2>About Me</h2>
-    <p>I’m Grace, a frontend developer who brings designs to life with clean code and user-first thinking. I specialize in crafting responsive, accessible web interfaces using React, and CSS frameworks like Tailwind. With years of experience, I’ve built everything from sleek landing pages to complex dashboards.I’m passionate about performance optimization and seamless UX, ensuring every project is both beautiful and functional. I thrive on turning complex requirements into intuitive solutions and love collaborating with designers and backend teams. When I’m not coding, I’m tinkering with new libraries or sharing tips at local tech meetups. Explore my work or reach out to create something impactful together.</p>
-  </section>
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-  <section id="skills">
-    <h2>Professional Skillset</h2>
-    <div class="skills-grid">
-      <div class="skill-item">HTML</div>
-      <div class="skill-item">CSS</div>
-      <div class="skill-item">JavaScript</div>
-      <div class="skill-item">React</div>
-      <div class="skill-item">Node.js</div>
-      <div class="skill-item">Git</div>
-        <div class="skill-item">Tailwind CSS</div>
-        <div class="skill-item">Python</div>
-    </div>
-  </section>
+        let noClickCount = 0;
+        let perchanceClickCount = 0;
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="projects-grid">
-      <div class="project-card">
-        <img src="kanban.png" alt="Project 1">
-        <h3>Project One</h3>
-        <p>A responsive task management web app built with React and Tailwind CSS.</p>
-      </div>
-      <div class="project-card">
-        <img src="Visionlink.png" alt="Project 2">
-        <h3>Project Two</h3>
-        <p>A responsive website built with HTML/CSS/Javascript</p>
-      </div>
-      <div class="project-card">
-        <img src="Video-audio.png" alt="Project 3">
-        <h3>Project Three</h3>
-        <p>A Program that converts Video to Audio. It was built with Python</p>
-      </div>
-      <div class="project-card">
-        <img src="Fylo.png" alt="Project 3">
-        <h3>Project Three</h3>
-        <p>A simple website</p>
-      </div>
-    </div>
-  </section>
+        // Confetti effect
+        const confettiParticles = [];
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height - canvas.height;
+                this.size = Math.random() * 15 + 8;
+                this.speedX = Math.random() * 5 - 2.5;
+                this.speedY = Math.random() * 7 + 4;
+                this.color = `hsl(${Math.random() * 360}, 70%, 70%)`;
+                this.rotation = Math.random() * 360;
+                this.shape = Math.random() > 0.5 ? 'circle' : 'square';
+            }
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Feel free to reach out to me for collaboration or inquiries!</p>
-    <div class="contact-links">
-      <a href="mailto:folarinanuoluwapograce@gmail.com">Email</a>
-      <a href="https://github.com/Grace-Folarin?tab=repositories" target="_blank">GitHub</a>
-      <a href="https://www.linkedin.com/in/folarinanuoluwapograce" target="_blank">LinkedIn</a>
-    </div>
-  </section>
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.size *= 0.99; // Slower decay for even longer-lasting confetti
+                this.rotation += this.speedX * 2;
+                if (this.size < 0.5) this.size = 0;
+            }
 
-  <footer>
-    <p>© 2025 Grace. All rights reserved.</p>
-  </footer>
-
-  <script>
-    // Hamburger menu toggle
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
-
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-      hamburger.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
-    });
-
-    // Close mobile menu when a link is clicked
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-        hamburger.textContent = '☰';
-      });
-    });
-
-    // Smooth scrolling for nav links
-    document.querySelectorAll('.nav-links a').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        const targetSection = document.querySelector(targetId);
-        targetSection.scrollIntoView({ behavior: 'smooth' });
-      });
-    });
-
-    // Highlight active nav link on scroll
-    window.addEventListener('scroll', () => {
-      const sections = document.querySelectorAll('section');
-      const navLinks = document.querySelectorAll('.nav-links a');
-      let current = '';
-
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        if (pageYOffset >= sectionTop - 60) {
-          current = section.getAttribute('id');
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.fillStyle = this.color;
+                if (this.shape === 'circle') {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                }
+                ctx.restore();
+            }
         }
-      });
 
-      navLinks.forEach(link => {
-        link.style.color = '#ffffff';
-        if (link.getAttribute('href') === `#${current}`) {
-          link.style.color = '#00ffaa';
+        function createConfetti() {
+            for (let i = 0; i < 1500; i++) { // Increased confetti count for bigger celebration
+                confettiParticles.push(new Particle());
+            }
         }
-      });
-    });
-  </script>
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confettiParticles.forEach((particle, index) => {
+                particle.update();
+                particle.draw();
+                if (particle.size <= 0.5) {
+                    confettiParticles.splice(index, 1);
+                }
+            });
+            if (confettiParticles.length > 0) {
+                requestAnimationFrame(animateConfetti);
+            }
+        }
+
+        // Button interactions
+        yesBtn.addEventListener('click', () => {
+            createConfetti();
+            animateConfetti();
+            yesBtn.style.display = 'none';
+            noBtn.style.display = 'none';
+            perchanceBtn.style.display = 'none';
+            questionText.style.display = 'none';
+            celebrationMessage.style.display = 'block';
+        });
+
+        noBtn.addEventListener('click', () => {
+            noClickCount++;
+            const noScale = Math.max(0.5, 1 - noClickCount * 0.2); // Adjusted for 5 clicks
+            const yesScale = 1 + noClickCount * 0.2;
+            noBtn.style.transform = `scale(${noScale})`;
+            yesBtn.style.transform = `scale(${yesScale})`;
+            noBtn.style.opacity = Math.max(0.5, 1 - noClickCount * 0.2);
+            perchanceBtn.style.display = 'none';
+            if (noClickCount >= 5) { // Reduced to 5 clicks
+                noBtn.style.display = 'none';
+            }
+        });
+
+        perchanceBtn.addEventListener('click', () => {
+            perchanceClickCount++;
+            noBtn.style.display = 'none';
+            const perchanceScale = Math.max(0.5, 1 - perchanceClickCount * 0.2); // Adjusted for 5 clicks
+            const yesScale = 1 + perchanceClickCount * 0.2;
+            perchanceBtn.style.transform = `scale(${perchanceScale})`;
+            yesBtn.style.transform = `scale(${yesScale})`;
+            perchanceBtn.style.opacity = Math.max(0.5, 1 - perchanceClickCount * 0.2);
+            if (perchanceClickCount >= 5) { // Reduced to 5 clicks
+                perchanceBtn.style.display = 'none';
+            }
+        });
+
+        // Window resize handler
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
 </body>
 </html>
